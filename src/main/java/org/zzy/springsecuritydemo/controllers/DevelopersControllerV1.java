@@ -1,5 +1,6 @@
 package org.zzy.springsecuritydemo.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.zzy.springsecuritydemo.model.Developer;
 
@@ -16,16 +17,19 @@ public class DevelopersControllerV1 {
 			new Developer(3L, "Petr", "Petrov")
 	).collect(Collectors.toList());
 
+	@PreAuthorize("hasAuthority('developers:read')")
 	@GetMapping
 	public List<Developer> getAll() {
 		return developers;
 	}
 
+	@PreAuthorize("hasAuthority('developers:write')")
 	@GetMapping("/{id}")
 	public Developer getById(@PathVariable Long id) {
 		return developers.stream().filter(developer -> id.equals(developer.getId())).findFirst().orElse(null);
 	}
 
+	@PreAuthorize("hasAuthority('developers:write')")
 	@PostMapping
 	public Developer create(@RequestBody Developer developer) {
 		this.developers.add(developer);

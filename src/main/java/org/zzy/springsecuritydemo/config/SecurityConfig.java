@@ -2,7 +2,7 @@ package org.zzy.springsecuritydemo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -11,23 +11,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.zzy.springsecuritydemo.model.Permission;
 import org.zzy.springsecuritydemo.model.Role;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-	private static final String ANY_API_ENDPOINT = "/api/**";
-
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
 				.csrf().disable()
 				.authorizeRequests()
 				.antMatchers("/").permitAll()
-				.antMatchers(HttpMethod.GET, ANY_API_ENDPOINT).hasAuthority(Permission.DEVELOPERS_READ.getName())
-				.antMatchers(HttpMethod.POST, ANY_API_ENDPOINT).hasAuthority(Permission.DEVELOPERS_WRITE.getName())
-				.antMatchers(HttpMethod.DELETE, ANY_API_ENDPOINT).hasAuthority(Permission.DEVELOPERS_WRITE.getName())
 				.anyRequest()
 				.authenticated()
 				.and()
