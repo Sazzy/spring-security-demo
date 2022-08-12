@@ -1,4 +1,4 @@
-package org.zzy.springsecuritydemo.controllers;
+package org.zzy.springsecuritydemo.rest;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
