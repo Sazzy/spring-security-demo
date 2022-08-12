@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.zzy.springsecuritydemo.model.Permission;
 import org.zzy.springsecuritydemo.model.Role;
 
 @Configuration
@@ -24,9 +25,9 @@ public class SecurityConfig {
 				.csrf().disable()
 				.authorizeRequests()
 				.antMatchers("/").permitAll()
-				.antMatchers(HttpMethod.GET, ANY_API_ENDPOINT).hasAnyRole(Role.ADMIN.name(), Role.USER.name())
-				.antMatchers(HttpMethod.POST, ANY_API_ENDPOINT).hasRole(Role.ADMIN.name())
-				.antMatchers(HttpMethod.DELETE, ANY_API_ENDPOINT).hasRole(Role.ADMIN.name())
+				.antMatchers(HttpMethod.GET, ANY_API_ENDPOINT).hasAuthority(Permission.DEVELOPERS_READ.getName())
+				.antMatchers(HttpMethod.POST, ANY_API_ENDPOINT).hasAuthority(Permission.DEVELOPERS_WRITE.getName())
+				.antMatchers(HttpMethod.DELETE, ANY_API_ENDPOINT).hasAuthority(Permission.DEVELOPERS_WRITE.getName())
 				.anyRequest()
 				.authenticated()
 				.and()
@@ -40,12 +41,12 @@ public class SecurityConfig {
 				User.builder()
 						.username("admin")
 						.password(passwordEncoder().encode("admin"))
-						.roles(Role.ADMIN.name())
+						.authorities(Role.ADMIN.getAuthorities())
 						.build(),
 				User.builder()
 						.username("user")
 						.password(passwordEncoder().encode("user"))
-						.roles(Role.USER.name())
+						.authorities(Role.USER.getAuthorities())
 						.build()
 		);
 	}
