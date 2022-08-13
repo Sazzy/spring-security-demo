@@ -1,0 +1,2 @@
+[{"id":1, "email":"admin@mail.com", "first_name":"Admin", "last_name":"Adminov", "password":"$2a$12$RTQmJ9bu4s.iNiPfeOzkn.gUPa2RKekzdO0fOXQEQZI7yCdo6jMM.", "role":"ADMIN", "status":"ACTIVE"},
+ {"id":2, "email":"user@mail.com", "first_name":"User", "last_name":"Userov", "password":"$2a$12$s.nWJmOZo6Uy3tO3TtlXVeK1g3XuoINZ3dB2geTwA3WJ579mqUxR2", "role":"USER", "status":"ACTIVE"}]
